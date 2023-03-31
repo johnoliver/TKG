@@ -25,7 +25,7 @@ public class CmdExecutor {
     private static CmdExecutor instance;
     private final ExecutorService executor;
 
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(300);
+    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(15);
 
     private CmdExecutor() {
         executor = Executors.newSingleThreadExecutor();
