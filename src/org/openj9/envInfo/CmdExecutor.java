@@ -23,12 +23,10 @@ import java.util.concurrent.*;
 
 public class CmdExecutor {
     private static CmdExecutor instance;
-    private final ExecutorService executor;
 
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(15);
 
     private CmdExecutor() {
-        executor = Executors.newSingleThreadExecutor();
     }
 
     public static CmdExecutor getInstance() {
@@ -45,6 +43,7 @@ public class CmdExecutor {
     public String execute(String[] commands, Duration timeout) {
         Process proc = null;
 
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
             ProcessBuilder builder = new ProcessBuilder(Arrays.asList(commands));
             builder.redirectErrorStream(true);
@@ -81,6 +80,7 @@ public class CmdExecutor {
                 System.err.println("Forcibly stopping process " + String.join(" ", Arrays.asList(commands)));
                 proc.destroyForcibly();
             }
+            executor.shutdownNow();
         }
     }
 }
