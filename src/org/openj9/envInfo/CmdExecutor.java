@@ -71,10 +71,13 @@ public class CmdExecutor {
 
             return output.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            System.err.println("Process failed to exit: " + String.join(" ", Arrays.asList(commands)));
-            throw new RuntimeException(e);
+            String message = "Process failed to exit: " + String.join(" ", Arrays.asList(commands));
+            System.err.println(message);
+            return message;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            String message = "Process failed to run: " + String.join(" ", Arrays.asList(commands));
+            System.err.println(message);
+            return message;
         } finally {
             if (proc != null && proc.isAlive()) {
                 System.err.println("Forcibly stopping process " + String.join(" ", Arrays.asList(commands)));
